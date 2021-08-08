@@ -36,15 +36,6 @@ class MyClient extends AkairoClient {
       blockBots: true,
       blockClient: true,
     });
-    this.commandHandler.handle = async function (message) {
-      //if (message.author.id != this.client.ownerID) return;
-      // if (
-      //   !(await this.client.db.kokomiBlacklists.findOne({
-      //     channel_id: message.channel,
-      //   }))
-      // )
-      //   return CommandHandler.prototype.handle.call(this, message);
-    };
     this.listenerHandler = new ListenerHandler(this, {
       directory: './src/listeners/',
       automateCategories: true,
