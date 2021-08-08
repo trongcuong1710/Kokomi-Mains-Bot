@@ -7,6 +7,7 @@ class DeleteCustomRoleCommand extends Command {
       aliases: ['deletecustomrole', 'dcr', 'delcusrole'],
       ownerOnly: false,
       category: 'Moderation',
+      userPermissions: 'ADMINISTRATOR',
       channel: 'guild',
       description: {
         description: "Delete a member's custom role.",

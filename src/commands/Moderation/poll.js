@@ -7,7 +7,7 @@ class PollCommand extends Command {
       aliases: ['poll'],
       description: { description: 'Create a poll.', usage: 'poll <question>' },
       ownerOnly: false,
-      userPermissions: 'MUTE_MEMBERS',
+      userPermissions: 'MANAGE_MESSAGES',
       category: 'Moderation',
       args: [{ id: 'question', type: 'string', match: 'rest' }],
     });

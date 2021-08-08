@@ -35,6 +35,7 @@ class MyClient extends AkairoClient {
       allowMention: true,
       blockBots: true,
       blockClient: true,
+      ignorePermissions: '488699894023061516',
     });
     this.listenerHandler = new ListenerHandler(this, {
       directory: './src/listeners/',
