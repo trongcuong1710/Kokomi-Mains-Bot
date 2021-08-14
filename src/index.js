@@ -20,7 +20,7 @@ class MyClient extends AkairoClient {
         partials: ['CHANNEL', 'MESSAGE', 'REACTION'],
         presence: {
           activity: {
-            name: `with my fish.`,
+            name: `DM .ticket for help.`,
             type: 'PLAYING',
           },
           status: 'dnd',
