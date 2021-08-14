@@ -9,6 +9,7 @@ class BlacklistCommand extends Command {
       aliases: ['blacklist'],
       category: 'Moderation',
       channel: 'guild',
+      userPermissions: 'MANAGE_CHANNELS',
       args: [
         {
           id: 'channel',
@@ -23,7 +24,7 @@ class BlacklistCommand extends Command {
         },
       ],
       description: {
-        description: 'Disables/Enables eula in a given channel.',
+        description: 'Disables/Enables kokomi in a given channel.',
         usage: 'blacklist <channel>',
       },
     });
@@ -31,45 +32,21 @@ class BlacklistCommand extends Command {
 
   async exec(message, args) {
     moment.locale('en');
-    const roles = [
-      '821556056282103819', // 500's owner role
-      '808507839382552598', // Admin
-      '808515071772459018', // Mod
-      '830270184479522857', // Zyla
-    ];
-    var i;
-    for (i = 0; i <= roles.length; i++) {
-      if (
-        message.member.roles.cache
-          .map((x) => x.id)
-          .filter((x) => roles.includes(x)).length === 0
-      )
-        return await message.channel.send(
-          new Discord.MessageEmbed({
-            color: 'RED',
-            description: "You can't do that with the permissions you have.",
-          })
-        );
-    }
-
-    const prefix = this.client.commandHandler.prefix;
 
     if (!args.channel)
       return message.channel.send(
         new Discord.MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <channel>\n           ^^^^^^^^^\nchannel is a required argument that is missing.\`\`\``,
+          description: `Please specify a channel.`,
         })
       );
 
     if (
-      !(await this.client.db.eulaBlacklists.findOne({
+      !(await this.client.db.kokomiBlacklists.findOne({
         channel_id: args.channel,
       }))
     ) {
-      await this.client.db.eulaBlacklists
+      await this.client.db.kokomiBlacklists
         .create({
           channel_id: args.channel,
           blacklistedBy: message.author,
@@ -82,7 +59,7 @@ class BlacklistCommand extends Command {
               footer: { text: `Use the command again to unblacklist.` },
             })
           );
-          this.client.channels.cache.get(channels.databaseLogsChannel).send(
+          this.client.channels.cache.get(channels.punishmentLogsChannel).send(
             new Discord.MessageEmbed({
               color: 'GREEN',
               title: `Channel Blacklist`,
@@ -93,7 +70,7 @@ class BlacklistCommand extends Command {
           );
         });
     } else
-      return await this.client.db.eulaBlacklists
+      return await this.client.db.kokomiBlacklists
         .findOneAndRemove({
           channel_id: args.channel,
         })
@@ -106,7 +83,7 @@ class BlacklistCommand extends Command {
             })
           );
           return await this.client.channels.cache
-            .get(channels.databaseLogsChannel)
+            .get(channels.punishmentLogsChannel)
             .send(
               new Discord.MessageEmbed({
                 color: 'RED',
@@ -120,4 +97,4 @@ class BlacklistCommand extends Command {
   }
 }
 
-//module.exports = BlacklistCommand;
+module.exports = BlacklistCommand;

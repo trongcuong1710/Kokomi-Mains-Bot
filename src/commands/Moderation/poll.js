@@ -7,21 +7,17 @@ class PollCommand extends Command {
       aliases: ['poll'],
       description: { description: 'Create a poll.', usage: 'poll <question>' },
       ownerOnly: false,
-      userPermissions: 'MANAGE_MESSAGES',
       category: 'Moderation',
       args: [{ id: 'question', type: 'string', match: 'rest' }],
     });
   }
 
   async exec(message, args) {
-    const prefix = this.client.commandHandler.prefix;
     if (!args.question)
       return message.channel.send(
         new MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <question>\n      ^^^^^^^^^^\nquestion is a required argument that is missing.\`\`\``,
+          description: `Poll for what?`,
         })
       );
 
@@ -34,8 +30,8 @@ class PollCommand extends Command {
         })
       )
       .then(async (m) => {
-        await m.react('832988077013729370');
-        await m.react('832988076925779978');
+        await m.react('864925053501440041');
+        await m.react('864922724693311498');
       });
   }
 }

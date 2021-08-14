@@ -15,9 +15,6 @@ class GuildMemberUpdateListener extends Listener {
 
   async exec(oldMember, newMember) {
     moment.locale('en');
-    // const memberLogsCH = global.guild.channels.cache.get(
-    //   channels.memberLogsChannel
-    // );
     //? Nitro Booster
     //#region If nitro booster.
     var messages = [
@@ -25,6 +22,7 @@ class GuildMemberUpdateListener extends Listener {
       'I’m grateful that you’re always here and supporting us!',
       'Your support have thrilled me,and I’m overwhelmed with happiness. This encouragement is what keeps me going. Thank you for the support.',
       "Thank you; I appreciate everyone who has been a part of this. None of this could’ve been possible without your contribution. It's not like I like you... but all of you are valuable to me.",
+      "Thank you for the boost, for that I'll remove you from my vengeance list.",
     ];
 
     const nitroBoosterRole = global.guild.roles.cache.get(
@@ -49,7 +47,7 @@ class GuildMemberUpdateListener extends Listener {
     const prefix = this.client.commandHandler.prefix;
 
     const kokomiLove = new MessageAttachment(
-      'https://cdn.discordapp.com/attachments/874054446164901888/874057313164619806/852168107048960070.png'
+      'https://cdn.discordapp.com/attachments/851849325243793439/875082670382661632/852168107048960070.png'
     );
 
     if (!notBoosting && isBoosting) {
@@ -59,7 +57,7 @@ class GuildMemberUpdateListener extends Listener {
       newMember
         .send(
           new MessageEmbed({
-            color: 'BLUE',
+            color: 'GREEN',
             title: 'You have unlocked a new perk by boosting the server!',
             description: `You can now have a custom role you desire!`,
             fields: [
@@ -81,11 +79,11 @@ class GuildMemberUpdateListener extends Listener {
           })
         )
         .catch(() => {
-          // #role-request
+          // booster chat
           global.guild.channels.cache.get('852449619979534336').send(
             newMember,
             new MessageEmbed({
-              color: 'BLUE',
+              color: 'GREEN',
               title: 'You have unlocked a new perk by boosting the server!',
               description: `You can now have a custom role you desire!`,
               fields: [
@@ -128,62 +126,7 @@ class GuildMemberUpdateListener extends Listener {
           return;
         });
     }
-    // //#endregion
-    // //? Nickname Logger
-    // //#region If changed nickname
-    // if (newMember.displayName != oldMember.displayName) {
-    //   memberLogsCH.send(
-    //     new MessageEmbed({
-    //       color: 'BLUE',
-    //       author: {
-    //         iconURL: newMember.user.displayAvatarURL({ dynamic: true }),
-    //         name: newMember.user.tag,
-    //       },
-    //       title: 'Name Changed',
-    //       description: `**Before**: ${oldMember.displayName}\n**+After**: ${newMember.displayName}`,
-    //       footer: {
-    //         text: `ID: ${newMember.id}`,
-    //       },
-    //       timestamp: new Date(),
-    //     })
-    //   );
-    // }
-    // //#endregion
-    // //? Role Logger
-    // //#region If updated role
-    // global.guild.roles.cache.forEach(async (role) => {
-    //   const hadRole = oldMember.roles.cache.find((r) => r.id === role.id);
-    //   const haveRole = newMember.roles.cache.find((r) => r.id === role.id);
-    //   if (!hadRole && haveRole)
-    //     memberLogsCH.send(
-    //       new MessageEmbed({
-    //         color: 'BLUE',
-    //         author: {
-    //           iconURL: newMember.user.displayAvatarURL({ dynamic: true }),
-    //           name: newMember.user.tag,
-    //         },
-    //         title: 'Role Added',
-    //         description: `${role}`,
-    //         footer: { text: `ID: ${newMember.id}` },
-    //         timestamp: new Date(),
-    //       })
-    //     );
-    //   if (hadRole && !haveRole)
-    //     memberLogsCH.send(
-    //       new MessageEmbed({
-    //         color: 'BLUE',
-    //         author: {
-    //           iconURL: newMember.user.displayAvatarURL({ dynamic: true }),
-    //           name: newMember.user.tag,
-    //         },
-    //         title: 'Role Removed',
-    //         description: `${role}`,
-    //         footer: { text: `ID: ${newMember.id}` },
-    //         timestamp: new Date(),
-    //       })
-    //     );
-    // });
-    // //#endregion
+    //#endregion
   }
 }
 

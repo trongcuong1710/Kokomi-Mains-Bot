@@ -84,7 +84,6 @@ class ReadyListener extends Listener {
     const modMails = await this.client.db.kokomiModmail.find();
     if (!modMails) return;
     modMails.forEach(async (x) => {
-      const member = global.guild.members.cache.get(x.member_id);
       const channel = global.guild.channels.cache.get(x.channel_id);
 
       await channel.messages.fetch().then(async (messages) => {
@@ -93,24 +92,6 @@ class ReadyListener extends Listener {
             await this.client.db.kokomiModmail
               .deleteOne({ channel_id: channel.id })
               .then(async () => {
-                await global.guild.channels.cache
-                  .get(channels.modMailLogsChannel)
-                  .send(
-                    new Discord.MessageEmbed({
-                      color: 'RED',
-                      description: `A ticket channel was deleted, so I deleted the ticket info from database.`,
-                      fields: [
-                        {
-                          name: 'Ticket Author',
-                          value: `${member}-(${member.id})`,
-                        },
-                        {
-                          name: 'Deleted At',
-                          value: moment().format('LLLL'),
-                        },
-                      ],
-                    })
-                  );
                 await channel.delete().catch((e) => {
                   global.guild.channels.cache
                     .get(channels.errorLogsChannel)

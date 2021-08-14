@@ -36,30 +36,26 @@ class RemoveWarnCommand extends Command {
 
   async exec(message, args) {
     moment.locale('en');
-    const prefix = this.client.commandHandler.prefix;
     if (!args.member)
       return message.channel.send(
         new MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <member> <warnID>\n            ^^^^^^^^\nmember is a required argument that is missing.\`\`\``,
+          description: `Please specify a member.`,
         })
       );
     if (!args.warnID)
       return message.channel.send(
         new MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <member> <warnID>\n                     ^^^^^^^^\nwarnID is a required argument that is missing.\`\`\``,
+          description: `Please specify a warnID.`,
         })
       );
 
     const permRoles = [
-      '821556056282103819', // 500's owner role
-      '808507839382552598', // Admin
-      '808515071772459018', // Mod
+      '871201915206242324', // Owner
+      '851648785351573565', // Admin
+      '851651487586058313', // Mod
+      '851884941423542324', // Trial Mods
       '830270184479522857', // Zyla
     ];
     var i;
@@ -77,10 +73,10 @@ class RemoveWarnCommand extends Command {
         );
     }
 
-    const warnReasonWas = await this.client.db.eulaWarns.find({
+    const warnReasonWas = await this.client.db.kokomiWarns.find({
       warnID: args.warnID,
     });
-    await this.client.db.eulaWarns
+    await this.client.db.kokomiWarns
       .deleteOne({ warnID: args.warnID })
       .then(async (c) => {
         await message.channel.send(
@@ -106,6 +102,22 @@ class RemoveWarnCommand extends Command {
               timestamp: new Date(),
             })
           );
+        args.member
+          .send(
+            new MessageEmbed({
+              color: 'RED',
+              title: `A warn has been removed you in ${global.guild.name}.`,
+              description: `**Responsible Staff**: ${
+                message.author.tag || message.author.username || message.author
+              }\n**Reason was**: ${warnReasonWas
+                .map((x) => x.reason)
+                .join('\n')}`,
+              timestamp: new Date(),
+            })
+          )
+          .catch((_) => {
+            return;
+          });
       });
   }
 }

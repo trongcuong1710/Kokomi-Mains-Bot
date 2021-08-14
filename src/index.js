@@ -17,11 +17,11 @@ class MyClient extends AkairoClient {
       {
         disableMentions: 'everyone',
         fetchAllMembers: true,
-        //partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
+        partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
         presence: {
           activity: {
-            name: `DM .ticket for help!`,
-            type: 'PLAYING',
+            name: `in for vengeance!`,
+            type: 'COMPETING',
           },
           status: 'dnd',
           afk: false,
@@ -35,8 +35,16 @@ class MyClient extends AkairoClient {
       allowMention: true,
       blockBots: true,
       blockClient: true,
-      ignorePermissions: '488699894023061516',
     });
+    this.commandHandler.handle = async function (message) {
+      // if (message.author.id != this.client.ownerID) return;
+      if (
+        !(await this.client.db.kokomiBlacklists.findOne({
+          channel_id: message.channel,
+        }))
+      )
+        return CommandHandler.prototype.handle.call(this, message);
+    };
     this.listenerHandler = new ListenerHandler(this, {
       directory: './src/listeners/',
       automateCategories: true,
@@ -70,24 +78,24 @@ class MyClient extends AkairoClient {
 
         'kokomiWarns'
       ),
-      // kokomiQuotes: mongoose.model(
-      //   'kokomiQuotes',
-      //   new mongoose.Schema({
-      //     quoteName: String,
-      //     quote: String,
-      //     by: String,
-      //     embed: Boolean,
-      //   }),
-      //   'kokomiQuotes'
-      // ),
-      // kokomiBlacklists: mongoose.model(
-      //   'kokomiBlacklists',
-      //   new mongoose.Schema({
-      //     channel_id: String,
-      //     blacklistedBy: String,
-      //   }),
-      //   'kokomiBlacklists'
-      // ),
+      kokomiQuotes: mongoose.model(
+        'kokomiQuotes',
+        new mongoose.Schema({
+          quoteName: String,
+          quote: String,
+          by: String,
+          embed: Boolean,
+        }),
+        'kokomiQuotes'
+      ),
+      kokomiBlacklists: mongoose.model(
+        'kokomiBlacklists',
+        new mongoose.Schema({
+          channel_id: String,
+          blacklistedBy: String,
+        }),
+        'kokomiBlacklists'
+      ),
       kokomiIgnoreList: mongoose.model(
         'kokomiIgnoreList',
         new mongoose.Schema({
@@ -122,14 +130,6 @@ class MyClient extends AkairoClient {
         }),
         'kokomiMutes'
       ),
-      // kokomiPoints: mongoose.model(
-      //   'kokomiPoints',
-      //   new mongoose.Schema({
-      //     member_id: String,
-      //     points: Number,
-      //   }),
-      //   'kokomiPoints'
-      // ),
     };
   }
 }

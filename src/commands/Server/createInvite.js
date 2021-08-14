@@ -8,6 +8,8 @@ class InviteCommand extends Command {
       ownerOnly: false,
       category: 'Server',
       channel: 'guild',
+      clientPermissions: 'CREATE_INSTANT_INVITE',
+      userPermissions: 'CREATE_INSTANT_INVITE',
       cooldown: 10000,
       description: {
         description: 'Creates invite for the server and sends it.',

@@ -37,14 +37,11 @@ class WarnCommand extends Command {
 
   async exec(message, args) {
     moment.locale('en');
-    const prefix = this.client.commandHandler.prefix;
     if (!args.member)
       return message.channel.send(
         new MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <member> [reason]\n      ^^^^^^^^\nmember is a required argument that is missing.\`\`\``,
+          description: `Please specify a member.`,
         })
       );
     if (args.member.id === message.member.id)
@@ -73,12 +70,19 @@ class WarnCommand extends Command {
       );
 
     let reason = args.reason;
-    if (!args.reason) reason = `No Reason Provided.`;
+    if (!args.reason)
+      return message.channel.send(
+        new MessageEmbed({
+          color: 'RED',
+          description: `Please specify a reason.`,
+        })
+      );
 
     const permRoles = [
-      '821556056282103819', // 500's owner role
-      '808507839382552598', // Admin
-      '808515071772459018', // Mod
+      '871201915206242324', // Owner
+      '851648785351573565', // Admin
+      '851651487586058313', // Mod
+      '851884941423542324', // Trial Mods
       '830270184479522857', // Zyla
     ];
     var i;
@@ -103,7 +107,7 @@ class WarnCommand extends Command {
     }
 
     moment.locale('en');
-    await this.client.db.eulaWarns
+    await this.client.db.kokomiWarns
       .create({
         warnID: getRandomIntInclusive(1, 10000),
         warnedMember: args.member,
@@ -141,6 +145,20 @@ class WarnCommand extends Command {
                   timestamp: new Date(),
                 })
               );
+          });
+        args.member
+          .send(
+            new MessageEmbed({
+              color: 'RED',
+              title: `You have been warned in ${global.guild.name}.`,
+              description: `**Responsible Staff**: ${
+                message.author.tag || message.author.username || message.author
+              }\n**Reason**: ${reason}`,
+              timestamp: new Date(),
+            })
+          )
+          .catch((_) => {
+            return;
           });
       });
   }

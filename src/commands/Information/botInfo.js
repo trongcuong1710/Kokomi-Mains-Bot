@@ -1,4 +1,4 @@
-const { Command, AkairoClient } = require('discord-akairo');
+const { Command } = require('discord-akairo');
 const { MessageEmbed } = require('discord.js');
 const moment = require('moment');
 const bot = require('../../../package.json');
@@ -23,7 +23,7 @@ class BotInfoCommand extends Command {
       new MessageEmbed({
         color: 'BLUE',
         description: `Hello, I'm Kokomi!\n${
-          this.client.users.cache.get(this.client.ownerID).username
+          this.client.users.cache.get(this.client.ownerID).tag
         } is my creator, if there is anything I could do better please inform him!`,
         thumbnail: {
           url: this.client.user.displayAvatarURL({ dynamic: true, size: 512 }),

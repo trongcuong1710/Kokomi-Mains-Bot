@@ -53,7 +53,7 @@ class WarnsCommand extends Command {
     );
   }
   async showWarnOfID(message, args) {
-    await this.client.db.eulaWarns
+    await this.client.db.kokomiWarns
       .find({
         warnID: args.warnID,
       })
@@ -63,28 +63,16 @@ class WarnsCommand extends Command {
             color: 'GREEN',
             description: `.removewarn ${args.member} ${w.map(
               (x) => x.warnID
-            )} to remove a warning.`,
+            )} to remove a warning.\n\n**Warn ID**: ${w.map(
+              (x) => x.warnID
+            )}\n**Responsible Staff**: ${w.map(
+              (x) => x.warnedStaff
+            )}\n**Reason**: ${w
+              .map((x) => x.reason)
+              .join('\n')}\n**Date**: ${w.map((x) =>
+              moment(x.when).format('LLLL')
+            )}`,
             fields: [
-              {
-                name: 'Warn ID',
-                value: w.map((x) => x.warnID),
-                inline: true,
-              },
-              {
-                name: 'Moderator',
-                value: w.map((x) => x.warnedStaff),
-                inline: true,
-              },
-              {
-                name: 'Reason',
-                value: w.map((x) => x.reason).join('\n'),
-                inline: false,
-              },
-              {
-                name: 'Warned At',
-                value: w.map((x) => moment(x.when).format('LLLL')),
-                inline: true,
-              },
               {
                 name: `Remove`,
                 value: `${this.client.commandHandler.prefix}removewarn ${
@@ -100,9 +88,10 @@ class WarnsCommand extends Command {
 
   async exec(message, args) {
     const permRoles = [
-      '821556056282103819', // 500's owner role
-      '808507839382552598', // Admin
-      '808515071772459018', // Mod
+      '871201915206242324', // Owner
+      '851648785351573565', // Admin
+      '851651487586058313', // Mod
+      '851884941423542324', // Trial Mods
       '830270184479522857', // Zyla
     ];
     var i;
@@ -125,12 +114,10 @@ class WarnsCommand extends Command {
       return message.channel.send(
         new Discord.MessageEmbed({
           color: 'RED',
-          description: `\`\`\`\n${
-            prefix + this.id
-          } <member> <warnID>\n       ^^^^^^^^\nmember is a required argument that is missing.\`\`\``,
+          description: `Please specify a member.`,
         })
       );
-    const warns = await this.client.db.eulaWarns.find({
+    const warns = await this.client.db.kokomiWarns.find({
       warnedMember: args.member,
     });
     if (!warns.length)

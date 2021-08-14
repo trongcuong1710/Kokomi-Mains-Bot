@@ -14,7 +14,9 @@ class MessageListener extends Listener {
   async exec(message) {
     if (message.author.bot) return;
 
-    // const prefix = this.client.commandHandler.prefix;
+    // if (message.author.id != this.client.ownerID) return;
+
+    const prefix = this.client.commandHandler.prefix;
 
     const fetchedMember = await this.client.db.kokomiIgnoreList.findOne({
       member_id: message.author.id,
@@ -24,12 +26,12 @@ class MessageListener extends Listener {
       member_id: message.author.id,
     });
 
-    // if (
-    //   await this.client.db.kokomiBlacklists.findOne({
-    //     channel_id: message.channel,
-    //   })
-    // )
-    //   return;
+    if (
+      await this.client.db.kokomiBlacklists.findOne({
+        channel_id: message.channel,
+      })
+    )
+      return;
 
     if (message.guild === null) {
       if (hasTicket) return;
@@ -64,7 +66,7 @@ class MessageListener extends Listener {
 
         await channel.messages.fetch().then(async (messages) => {
           const logs = messages
-            .filter((m) => m.author.id != '829299333685182484')
+            .filter((m) => m.author.id != '872918809617530981')
             .sort(
               (user, admin) => user.createdTimestamp - admin.createdTimestamp
             )
@@ -92,40 +94,40 @@ class MessageListener extends Listener {
     });
     //#endregion
 
-    // //? Quote System
-    // //#region Quote System
-    // let quoteName = '';
-    // const firstWord = message.content.trim().split(/ +/g)[0];
-    // if (firstWord.startsWith(prefix)) {
-    //   quoteName = firstWord.slice(prefix.length);
-    // }
+    //? Quote System
+    //#region Quote System
+    let quoteName = '';
+    const firstWord = message.content.trim().split(/ +/g)[0];
+    if (firstWord.startsWith(prefix)) {
+      quoteName = firstWord.slice(prefix.length);
+    }
 
-    // const kokomiQuotes = await this.client.db.kokomiQuotes.findOne({
-    //   quoteName: quoteName,
-    // });
+    const kokomiQuotes = await this.client.db.kokomiQuotes.findOne({
+      quoteName: quoteName,
+    });
 
-    // if (!kokomiQuotes) return;
+    if (!kokomiQuotes) return;
 
-    // if (kokomiQuotes.embed)
-    //   return message.channel.send(
-    //     new Discord.MessageEmbed(JSON.parse(kokomiQuotes.quote))
-    //   );
+    if (kokomiQuotes.embed)
+      return message.channel.send(
+        new Discord.MessageEmbed(JSON.parse(kokomiQuotes.quote))
+      );
 
-    // if (kokomiQuotes.quote.includes('{mention}'))
-    //   return message.channel.send(
-    //     message.mentions.users.first()
-    //       ? kokomiQuotes.quote.replace(
-    //           '{mention}',
-    //           global.guild.members.cache.get(message.mentions.users.first().id)
-    //             .user.username
-    //         )
-    //       : 'Mention someone, baka!!'
-    //   );
+    if (kokomiQuotes.quote.includes('{mention}'))
+      return message.channel.send(
+        message.mentions.users.first()
+          ? kokomiQuotes.quote.replace(
+              '{mention}',
+              global.guild.members.cache.get(message.mentions.users.first().id)
+                .user.username
+            )
+          : 'Mention someone, baka!!'
+      );
 
-    // return message.channel.send(
-    //   message.mentions.users.first() ? kokomiQuotes.quote : kokomiQuotes.quote
-    // );
-    // //#endregion
+    return message.channel.send(
+      message.mentions.users.first() ? kokomiQuotes.quote : kokomiQuotes.quote
+    );
+    //#endregion
   }
 }
 

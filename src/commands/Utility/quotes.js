@@ -22,7 +22,7 @@ class QuotesCommand extends Command {
   }
 
   async exec(message, args) {
-    const quotes = await this.client.db.eulaQuotes.find();
+    const quotes = await this.client.db.kokomiQuotes.find();
 
     if (!quotes.length)
       return message.channel.send(
@@ -39,7 +39,7 @@ class QuotesCommand extends Command {
       );
     }
 
-    const quoteIsRegistered = await this.client.db.eulaQuotes.findOne({
+    const quoteIsRegistered = await this.client.db.kokomiQuotes.findOne({
       quoteName: args.quoteName,
     });
 
@@ -50,7 +50,7 @@ class QuotesCommand extends Command {
           description: `Quote: \`${args.quoteName}\`\nDoes not exist in the database.`,
         })
       );
-    const quoteOfName = await this.client.db.eulaQuotes.find({
+    const quoteOfName = await this.client.db.kokomiQuotes.find({
       quoteName: args.quoteName,
     });
     const quoteFromNameNoEmbed = quoteOfName
@@ -86,4 +86,4 @@ class QuotesCommand extends Command {
   }
 }
 
-//module.exports = QuotesCommand;
+module.exports = QuotesCommand;

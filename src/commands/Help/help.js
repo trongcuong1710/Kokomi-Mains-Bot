@@ -24,7 +24,7 @@ class HelpCommand extends Command {
       return message.channel.send(
         new Discord.MessageEmbed({
           color: 'RED',
-          description: `In development.\n\n[pls donate lol](https://ko-fi.com/zylasden)`,
+          description: `In development.\n\n[You can donate my dumb programmer here!](https://ko-fi.com/zylasden)`,
         })
       );
 

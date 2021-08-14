@@ -32,9 +32,9 @@ class RemoveQuoteCommand extends Command {
         })
       );
     const roles = [
-      '821556056282103819', // 500's owner role
-      '808507839382552598', // Admin
-      '837929432425431090', // Head Mod
+      '871201915206242324', // Owner
+      '851648785351573565', // Admin
+      '851651487586058313', // Mod
       '830270184479522857', // Zyla
     ];
     var i;
@@ -52,11 +52,11 @@ class RemoveQuoteCommand extends Command {
         );
     }
 
-    const quotes = await this.client.db.eulaQuotes.findOne({
+    const quotes = await this.client.db.kokomiQuotes.findOne({
       quoteName: args.quote,
     });
-    if (await this.client.db.eulaQuotes.findOne({ quoteName: args.quote })) {
-      await this.client.db.eulaQuotes
+    if (await this.client.db.kokomiQuotes.findOne({ quoteName: args.quote })) {
+      await this.client.db.kokomiQuotes
         .deleteOne({
           quoteName: args.quote,
         })
@@ -110,4 +110,4 @@ class RemoveQuoteCommand extends Command {
   }
 }
 
-//module.exports = RemoveQuoteCommand;
+module.exports = RemoveQuoteCommand;

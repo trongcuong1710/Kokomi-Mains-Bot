@@ -80,7 +80,7 @@ module.exports = class ErrorHandler {
               new Discord.MessageEmbed({
                 color: 'RED',
                 title: `Timeout!`,
-                description: `Time's up, ${msg.author}!\nYou couldn't report in time...\nDon't worry though, you can always report it in our <#851924844945997894> channel or DM Zyla!`,
+                description: `Time's up, ${msg.author}!\nYou couldn't report in time...\nDon't worry though, you can always report it to Zyla in DMs!`,
               })
             );
           }

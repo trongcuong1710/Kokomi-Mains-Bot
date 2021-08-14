@@ -6,8 +6,8 @@ class IgnoreListCommand extends Command {
     super('ignorelist', {
       aliases: ['ignorelist'],
       category: 'Moderation',
-      userPermissions: 'MUTE_MEMBERS',
       channel: 'guild',
+      userPermissions: 'MUTE_MEMBERS',
       description: {
         description: 'List ignored members.',
         usage: 'ignorelist',
@@ -16,7 +16,7 @@ class IgnoreListCommand extends Command {
   }
 
   async exec(message) {
-    const ignoreList = await this.client.db.eulaIgnoreList.find();
+    const ignoreList = await this.client.db.kokomiIgnoreList.find();
 
     if (!ignoreList.length)
       return message.channel.send(
