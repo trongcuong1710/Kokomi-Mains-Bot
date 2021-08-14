@@ -17,11 +17,11 @@ class MyClient extends AkairoClient {
       {
         disableMentions: 'everyone',
         fetchAllMembers: true,
-        partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER'],
+        partials: ['CHANNEL', 'MESSAGE', 'REACTION'],
         presence: {
           activity: {
-            name: `in for vengeance!`,
-            type: 'COMPETING',
+            name: `with my fish.`,
+            type: 'PLAYING',
           },
           status: 'dnd',
           afk: false,
